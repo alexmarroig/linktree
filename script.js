@@ -13,27 +13,6 @@ const zodiacSigns = [
   "Peixes",
 ]
 
-const planets = [
-  "Sol",
-  "Lua",
-  "Mercúrio",
-  "Vênus",
-  "Marte",
-  "Júpiter",
-  "Saturno",
-  "Urano",
-  "Netuno",
-  "Plutão",
-]
-
-const aspects = [
-  { name: "Conjunção", angle: 0 },
-  { name: "Sextil", angle: 60 },
-  { name: "Quadratura", angle: 90 },
-  { name: "Trígono", angle: 120 },
-  { name: "Oposição", angle: 180 },
-]
-
 const translations = {
   "pt-BR": {
     chartTitle: "Mapa natal e revolução solar",
@@ -91,63 +70,6 @@ function hashSeed(value) {
     hash |= 0
   }
   return Math.abs(hash)
-}
-
-function circularPosition(seed, offset) {
-  return (seed * 3.1415 + offset * 47) % 360
-}
-
-function generatePlanetPositions(seed) {
-  return planets.map((planet, index) => {
-    const degree = circularPosition(seed, index * 20)
-    const signIndex = Math.floor(degree / 30)
-    const sign = zodiacSigns[signIndex]
-    const house = ((Math.floor(degree / 30) + (index % 12)) % 12) + 1
-
-    return { planet, degree, sign, house }
-  })
-}
-
-function generateAspects(positions) {
-  const matches = []
-  positions.forEach((p1, index) => {
-    for (let j = index + 1; j < positions.length; j += 1) {
-      const p2 = positions[j]
-      const diff = Math.abs(p1.degree - p2.degree)
-      const normalized = Math.min(diff, 360 - diff)
-      const aspectMatch = aspects.find((asp) => Math.abs(normalized - asp.angle) < 6)
-      if (aspectMatch) {
-        matches.push({
-          between: `${p1.planet} & ${p2.planet}`,
-          aspect: aspectMatch.name,
-          degree: normalized,
-        })
-      }
-    }
-  })
-  return matches
-}
-
-function generateSolarReturn(seed, include) {
-  if (!include) return null
-  const now = new Date()
-  const year = now.getFullYear()
-  const solarSeed = hashSeed(`${seed}-${year}`)
-  const positions = generatePlanetPositions(solarSeed).slice(0, 5)
-  return {
-    year,
-    positions,
-    theme: zodiacSigns[solarSeed % zodiacSigns.length],
-  }
-}
-
-function generateTransits(seed, date, include) {
-  if (!include) return []
-  const target = date ? new Date(date) : new Date()
-  const transitSeed = hashSeed(`${seed}-${target.toISOString().slice(0, 10)}`)
-  return generatePlanetPositions(transitSeed)
-    .slice(0, 4)
-    .map((item) => ({ ...item, window: target.toISOString().slice(0, 10) }))
 }
 
 function buildInterpretation(data, lang) {
@@ -304,34 +226,29 @@ function renderChart(data) {
   container.appendChild(svg)
 }
 
-function buildDataStructure(form) {
-  const formData = new FormData(form)
-  const payload = Object.fromEntries(formData.entries())
-  const seed = hashSeed(
-    `${payload.fullName}-${payload.birthDate}-${payload.birthTime}-${payload.birthPlace}`
-  )
-  const positions = generatePlanetPositions(seed)
-  const aspectList = generateAspects(positions)
-  const solarReturn = generateSolarReturn(seed, !!payload.includeSolarReturn)
-  const transits = generateTransits(seed, payload.transitDate, !!payload.includeTransits)
-
-  return {
-    meta: {
-      fullName: payload.fullName,
-      birthDate: payload.birthDate,
-      birthTime: payload.birthTime,
-      birthPlace: payload.birthPlace,
-      language: payload.language,
-      transitDate: payload.transitDate || new Date().toISOString().slice(0, 10),
-      generatedAt: new Date().toISOString(),
-      author: translations[payload.language].authoredBy(payload.fullName),
-    },
-    positions,
-    aspects: aspectList,
-    houses: positions.map((pos) => ({ house: pos.house, ruler: pos.sign })),
-    solarReturn,
-    transits,
+async function requestChart(form) {
+  const payload = {
+    fullName: form.fullName.value,
+    birthDate: form.birthDate.value,
+    birthTime: form.birthTime.value,
+    birthPlace: form.birthPlace.value,
+    language: form.language.value,
+    includeSolarReturn: form.includeSolarReturn.checked,
+    includeTransits: form.includeTransits.checked,
+    transitDate: form.transitDate.value || undefined,
   }
+
+  const response = await fetch('/api/chart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  const json = await response.json()
+  if (!response.ok) {
+    throw new Error(json.error || 'Erro ao calcular mapa.')
+  }
+  return json
 }
 
 function renderDataOutput(data) {
@@ -411,6 +328,7 @@ function bindActions() {
   const chartBtn = document.getElementById("download-chart")
   const pdfBtn = document.getElementById("download-pdf")
   const copyJsonBtn = document.getElementById("copy-json")
+  const feedback = document.getElementById("feedback")
 
   let currentData = null
   let currentEntries = []
@@ -424,14 +342,22 @@ function bindActions() {
     renderDataOutput(data)
   }
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault()
-    const data = buildDataStructure(form)
-    updateUI(data)
-    if (form.storeHistory?.checked) {
-      const history = JSON.parse(localStorage.getItem("astro-history") || "[]")
-      history.unshift(data.meta)
-      localStorage.setItem("astro-history", JSON.stringify(history.slice(0, 10)))
+    feedback.textContent = "Calculando mapa com efemérides..."
+    feedback.classList.remove("feedback--error")
+    try {
+      const data = await requestChart(form)
+      updateUI(data)
+      feedback.textContent = "Mapa atualizado com dados astrológicos reais."
+      if (form.storeHistory?.checked) {
+        const history = JSON.parse(localStorage.getItem("astro-history") || "[]")
+        history.unshift(data.meta)
+        localStorage.setItem("astro-history", JSON.stringify(history.slice(0, 10)))
+      }
+    } catch (error) {
+      feedback.textContent = error.message
+      feedback.classList.add("feedback--error")
     }
   })
 

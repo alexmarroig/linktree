@@ -43,16 +43,17 @@
                 type="text"
                 name="fullName"
                 placeholder="Camila Veloso — Astróloga"
+                value="Camila Veloso"
                 required
               />
             </label>
             <label>
               Data de nascimento
-              <input type="date" name="birthDate" required />
+              <input type="date" name="birthDate" value="1990-06-15" required />
             </label>
             <label>
               Hora (com fuso)
-              <input type="time" name="birthTime" required />
+              <input type="time" name="birthTime" value="14:30" required />
             </label>
             <label>
               Local de nascimento
@@ -60,6 +61,7 @@
                 type="text"
                 name="birthPlace"
                 placeholder="Cidade, País"
+                value="Lisboa, Portugal"
                 required
               />
             </label>
@@ -90,6 +92,7 @@
               <span>Guardar histórico (modo demonstrativo)</span>
             </label>
           </fieldset>
+          <p id="feedback" class="small muted" aria-live="polite"></p>
           <button class="primary" type="submit">Gerar relatório</button>
         </form>
       </div>
