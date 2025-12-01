@@ -168,21 +168,24 @@ app.post('/api/chart', async (req, res) => {
     const location = await geocode(birthPlace)
     const timezone = tzlookup(location.lat, location.lon)
     const { astroTime } = buildTime(birthDate, birthTime, timezone)
-    const ascendant = computeAscendant(astroTime, location.lon)
-    const observer = new Astronomy.Observer(location.lat, location.lon, 0)
+  const ascendant = computeAscendant(astroTime, location.lon)
+  const observer = new Astronomy.Observer(location.lat, location.lon, 0)
 
-    const positions = computePositions(astroTime, observer, ascendant)
-    const aspects = computeAspects(positions)
-    const houses = computeHouses(ascendant)
-    const solarReturn = buildSolarReturn(
-      {
-        birthDate,
-        birthTime,
-        timezone,
-        coordinates: { lat: location.lat, lon: location.lon },
-      },
-      includeSolarReturn
-    )
+  const positions = computePositions(astroTime, observer, ascendant)
+  const aspects = computeAspects(positions)
+  const houses = computeHouses(ascendant)
+  const ascSign = zodiac[Math.floor(ascendant / 30)]
+  const sun = positions.find((p) => p.planet === 'Sol')
+  const moon = positions.find((p) => p.planet === 'Lua')
+  const solarReturn = buildSolarReturn(
+    {
+      birthDate,
+      birthTime,
+      timezone,
+      coordinates: { lat: location.lat, lon: location.lon },
+    },
+    includeSolarReturn
+  )
     const transits = buildTransits(
       {
         birthTime,
@@ -204,6 +207,14 @@ app.post('/api/chart', async (req, res) => {
         transitDate: transitDate || DateTime.now().toISODate(),
         generatedAt: DateTime.now().toISO(),
         author: language === 'en' ? `${fullName} — Astrologer` : `${fullName} — Astróloga`,
+      },
+      summary: {
+        sun: sun?.sign,
+        moon: moon?.sign,
+        ascendant: ascSign,
+      },
+      angles: {
+        ascendant,
       },
       positions,
       aspects,
