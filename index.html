@@ -1,64 +1,275 @@
-
 <!DOCTYPE html>
 <html lang="pt-br" class="light">
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap"
       rel="stylesheet"
     />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Psicóloga Camila Freitas</title>
+    <title>Mapa Astral — Oráculo Celeste</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div id="container">
-      <div id="profile">
-        <img
-          src="./assets/assets/cavfreitas.png"
-          alt="Foto de Camila Freitas sorrindo, usando óculos e camisa preta, barba e fundo amarelo."
-        />
-        <p>@psi.cavfreitas</p>
-      </div>
-      <div id="switch" onclick="toggleMode()">
-        <button></button>
-        <span></span>
-      </div>
-      <ul>
-        <li>
-          <a href="#" target="_blank">Inscrever na lista de espera</a>
-        </li>
-        <li>
-          <a href="#" target="_blank">Baixar meu e-book</a>
-        </li>
-        <li>
-          <a href="#" target="_blank">Veja meu currículo</a>
-        </li>
-        <li>
-          <a href="#" target="_blank">Experiência do Consultório</a>
-        </li>
-      </ul>
-      <div id="social-links">
-        <a href="https://" target="_blank">
-          <ion-icon name="logo-instagram"></ion-icon>
-        </a>
-        <a href="https://" target="_blank">
-          <ion-icon name="logo-linkedin"></ion-icon>
-        </a>
-        <a href="https://" target="_blank">
-          <ion-icon name="logo-whatsapp"></ion-icon>
-        </a>
-        <a href="https://" target="_blank">
-          <ion-icon name="logo-youtube"></ion-icon>
-        </a>
-      </div>
-      <footer>
-        O caminho para sucesso sempre começa com um primeiro passo
+    <div class="stars"></div>
+    <div class="glow glow--left"></div>
+    <div class="glow glow--right"></div>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand__icon">✶</div>
+          <div>
+            <p class="eyebrow">AstroLumen</p>
+            <strong>Mapa Natal Completo</strong>
+          </div>
+        </div>
+        <div class="topbar__actions">
+          <span class="pill subtle">API + visual</span>
+          <button id="switch" class="switch" onclick="toggleMode()">
+            <span class="switch__thumb"></span>
+            <span class="switch__label">Tema</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">Descubra seu mapa natal completo com interpretações personalizadas</p>
+          <h1>Analise profundas das posições planetárias no momento exato do seu nascimento</h1>
+          <p class="lede">
+            Veja o mapa natal ilustrado, aspectos, casas, trânsitos e uma leitura fluida em
+            português ou inglês. Gere o relatório com assinatura "Camila Veloso — Astróloga" em PDF.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Mapa natal + revolução solar</span>
+            <span class="chip">pt-BR e en</span>
+            <span class="chip">SVG e PDF</span>
+            <span class="chip">Trânsitos atuais</span>
+          </div>
+          <p id="status" class="small muted" aria-live="polite">Pronto para calcular.</p>
+        </div>
+
+        <div class="hero__panel">
+          <form id="astro-form" class="card form" autocomplete="off">
+            <header class="card__header">
+              <div>
+                <p class="eyebrow">Dados de nascimento</p>
+                <h2>Gerar Mapa Natal</h2>
+              </div>
+              <span class="pill">Astrologia real</span>
+            </header>
+            <div class="field-grid">
+              <label>
+                Nome Completo
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Camila Veloso — Astróloga"
+                  value="Camila Veloso"
+                  required
+                />
+              </label>
+              <label>
+                Data de Nascimento
+                <input type="date" name="birthDate" value="1990-06-15" required />
+              </label>
+              <label>
+                Hora do Nascimento
+                <input type="time" name="birthTime" value="14:30" required />
+              </label>
+              <label>
+                Local de Nascimento
+                <input
+                  type="text"
+                  name="birthPlace"
+                  placeholder="Cidade, País"
+                  value="Lisboa, Portugal"
+                  required
+                />
+              </label>
+              <label>
+                Idioma do Relatório
+                <select name="language" required>
+                  <option value="pt-BR">Português (Brasil)</option>
+                  <option value="en">English</option>
+                </select>
+              </label>
+              <label>
+                Data alvo (trânsitos)
+                <input type="date" name="transitDate" />
+              </label>
+            </div>
+            <fieldset class="pill-row">
+              <legend>Extras</legend>
+              <label class="pill">
+                <input type="checkbox" name="includeSolarReturn" checked />
+                <span>Revolução solar</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="includeTransits" checked />
+                <span>Trânsitos</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="storeHistory" />
+                <span>Guardar histórico</span>
+              </label>
+            </fieldset>
+            <button class="primary" type="submit">Calcular mapa</button>
+          </form>
+
+          <div class="card map-card">
+            <header class="card__header">
+              <div>
+                <p class="eyebrow">Visual do mapa</p>
+                <h2>Roda astral em SVG</h2>
+                <p class="small">Mapa natal com sobreposição de revolução solar e trânsitos.</p>
+              </div>
+              <div class="pill-row">
+                <span class="pill subtle" id="meta-location">—</span>
+                <span class="pill subtle" id="meta-time">—</span>
+              </div>
+            </header>
+            <div class="map-card__summary">
+              <div class="summary__item">
+                <p class="eyebrow">Sol</p>
+                <strong id="sun-sign">—</strong>
+              </div>
+              <div class="summary__item">
+                <p class="eyebrow">Lua</p>
+                <strong id="moon-sign">—</strong>
+              </div>
+              <div class="summary__item">
+                <p class="eyebrow">Ascendente</p>
+                <strong id="asc-sign">—</strong>
+              </div>
+              <div class="summary__item">
+                <p class="eyebrow">Fuso</p>
+                <strong id="meta-zone">—</strong>
+              </div>
+            </div>
+            <div class="chart-wrapper" id="chart"></div>
+            <footer class="card__footer">
+              <button class="ghost" id="download-chart">Baixar SVG</button>
+              <button class="primary" id="download-pdf">PDF do relatório</button>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      <section class="info">
+        <header class="info__header">
+          <h2>O que inclui seu Mapa Natal</h2>
+          <p class="small">Relatórios personalizados com interpretações profundas para cada posição.</p>
+        </header>
+        <div class="info__grid">
+          <article class="info-card">
+            <div class="info-card__icon">✦</div>
+            <h3>Posições Planetárias</h3>
+            <p class="muted">Sol, Lua, planetas e ângulos com signos e graus precisos.</p>
+          </article>
+          <article class="info-card">
+            <div class="info-card__icon">⌘</div>
+            <h3>Casas Astrológicas</h3>
+            <p class="muted">Interpretação de cada casa com regências e temas.</p>
+          </article>
+          <article class="info-card">
+            <div class="info-card__icon">⚿</div>
+            <h3>Aspectos & Interpretações</h3>
+            <p class="muted">Ângulos entre planetas e leituras combinadas para você.</p>
+          </article>
+          <article class="info-card">
+            <div class="info-card__icon">⤳</div>
+            <h3>Revolução em PDF</h3>
+            <p class="muted">Relatório com trânsitos e revolução solar pronto para download.</p>
+          </article>
+        </div>
+      </section>
+
+      <main class="results" id="report">
+        <section class="panel">
+          <header class="panel__header">
+            <div>
+              <p class="eyebrow">Narrativa</p>
+              <h2>Interpretação dinâmica</h2>
+              <p class="small">Combinação de posicionamentos, aspectos e clima do momento.</p>
+            </div>
+            <button class="ghost" id="copy-json">Copiar JSON</button>
+          </header>
+          <div id="interpretation" class="interpretation"></div>
+        </section>
+
+        <section class="grid panels">
+          <article class="panel">
+            <header class="panel__header">
+              <div>
+                <p class="eyebrow">Planetas</p>
+                <h3>Posições e casas</h3>
+              </div>
+            </header>
+            <div class="table" id="positions-table"></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__header">
+              <div>
+                <p class="eyebrow">Casas</p>
+                <h3>Cuspes e signos</h3>
+              </div>
+            </header>
+            <div class="houses" id="houses-grid"></div>
+          </article>
+        </section>
+
+        <section class="grid panels">
+          <article class="panel">
+            <header class="panel__header">
+              <div>
+                <p class="eyebrow">Aspectos</p>
+                <h3>Ângulos principais</h3>
+              </div>
+            </header>
+            <div class="list" id="aspects-list"></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__header">
+              <div>
+                <p class="eyebrow">Tempo</p>
+                <h3>Trânsitos e revolução</h3>
+              </div>
+            </header>
+            <div class="list" id="timing"></div>
+          </article>
+        </section>
+
+        <section class="panel">
+          <header class="panel__header">
+            <div>
+              <p class="eyebrow">Estrutura</p>
+              <h2>JSON completo</h2>
+              <p class="small">Copie ou integre a resposta diretamente na sua aplicação.</p>
+            </div>
+          </header>
+          <pre id="data-output" class="code"></pre>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div>
+          <strong>Oráculo Celeste</strong>
+          <p>Mapa astral em tempo real com saída visual e textual.</p>
+        </div>
+        <div class="footer__links">
+          <a href="mailto:contato@oraculoceleste.io">E-mail</a>
+          <a href="https://">Instagram</a>
+          <a href="https://">YouTube</a>
+        </div>
       </footer>
     </div>
+
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
@@ -66,6 +277,12 @@
     <script
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      integrity="sha512-YkJLbv8qRAjPRxU5V1hk6F3GmCBzA0jHgcKXqswNy+tKsz95saFTp5HO1EDWygV9AZUIXyYrH2imkTTVuS6rnA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     ></script>
     <script src="./script.js"></script>
   </body>

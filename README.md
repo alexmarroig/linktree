@@ -1,52 +1,27 @@
-<h1 align="center"> Linktree da minha mulher</h1>
+<h1 align="center">Oráculo Celeste — pré-visualização local</h1>
 
-<p align="center">
-Programa exclusivo e gratuito, aprendido no curso promovido pela Rocketseat para ensino de tecnologias WEB. <br/>
-<a href="https://lp.rocketseat.com.br/devlinks/inscricao?utm_source=github&utm_medium=descricao&utm_campaign=capture-devlinks&utm_term=organic&utm_content=descricao-github-mayk-brito">Estude esse projeto em formato de vídeo clicando aqui.</a>
-</p>
+Uma landing de astrologia com cálculo de mapa natal, revolução solar, trânsitos e renderização do gráfico em SVG. Siga os passos abaixo para ver a interface completa rodando no seu ambiente.
 
-<p align="center">
-  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-licença">Licença</a>
-</p>
+## 🚀 Prévia local
 
-<p align="center">
-  <img alt="License" src="https://img.shields.io/static/v1?label=license&message=MIT&color=49AA26&labelColor=000000">
-</p>
+1. Instale as dependências (somente na primeira vez):
+   ```bash
+   npm install
+   ```
+2. Suba o servidor Express que já serve a API e os arquivos estáticos:
+   ```bash
+   npm start
+   ```
+3. Abra [http://localhost:3000](http://localhost:3000) no navegador para usar o formulário, gerar o mapa e baixar gráfico ou PDF.
 
-<br>
+> Dica: o formulário já vem com valores de demonstração. Basta clicar em **Gerar mapa** para conferir a interface sem preencher nada.
 
-<p align="center">
-  <img alt="projeto DevLinks" src=".github/preview.jpg" width="100%">
-</p>
+## 🧩 Tecnologias
+- Node + Express servindo API e front-end
+- Astronomy Engine para cálculos planetários e casas
+- Luxon e tz-lookup para fuso horário
+- HTML, CSS e JavaScript puros para a interface
 
-## 🚀 Tecnologias
+## 📝 Licença
 
-Esse projeto foi desenvolvido com as seguintes tecnologias:
-
-- HTML e CSS
-- JavaScript
-- Git e Github
-- Figma
-
-## 💻 Projeto
-
-O DevLinks é um agregador de links para usar como cartão de visitas online.
-
-- [Acesse o projeto finalizado, online](https://maykbrito.github.io/devlinks)
-
-- [Assistir aulas](https://lp.rocketseat.com.br/devlinks/inscricao?utm_source=github&utm_medium=descricao&utm_campaign=capture-devlinks&utm_term=organic&utm_content=descricao-github-mayk-brito)
-
-## 🔖 Layout
-
-Você pode visualizar o layout do projeto através [DESSE LINK](https://www.figma.com/community/file/1187422022288947321). É necessário ter conta no [Figma](https://figma.com) para acessá-lo.
-
-## :memo: Licença
-
-Esse projeto está sob a licença MIT.
-
----
-
-Feito com ♥ by Rocketseat :wave:
+MIT
