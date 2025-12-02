@@ -14,13 +14,16 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+    <div class="stars"></div>
+    <div class="glow glow--left"></div>
+    <div class="glow glow--right"></div>
     <div class="page">
       <header class="topbar">
         <div class="brand">
           <div class="brand__icon">✶</div>
           <div>
-            <p class="eyebrow">Oráculo Celeste</p>
-            <strong>Mapa astral completo</strong>
+            <p class="eyebrow">AstroLumen</p>
+            <strong>Mapa Natal Completo</strong>
           </div>
         </div>
         <div class="topbar__actions">
@@ -34,16 +37,17 @@
 
       <section class="hero">
         <div class="hero__copy">
-          <p class="eyebrow">Nativo, trânsitos e revolução solar</p>
-          <h1>Calcule o mapa com precisão e visualize o círculo astral</h1>
+          <p class="eyebrow">Descubra seu mapa natal completo com interpretações personalizadas</p>
+          <h1>Analise profundas das posições planetárias no momento exato do seu nascimento</h1>
           <p class="lede">
-            Interface focada no gráfico: preencha os dados, gere o mapa e obtenha tabelas de
-            posições, aspectos, casas, trânsitos e PDF.
+            Veja o mapa natal ilustrado, aspectos, casas, trânsitos e uma leitura fluida em
+            português ou inglês. Gere o relatório com assinatura "Camila Veloso — Astróloga" em PDF.
           </p>
           <div class="chip-row">
             <span class="chip">Mapa natal + revolução solar</span>
-            <span class="chip">Suporte pt-BR / en</span>
-            <span class="chip">Download SVG e PDF</span>
+            <span class="chip">pt-BR e en</span>
+            <span class="chip">SVG e PDF</span>
+            <span class="chip">Trânsitos atuais</span>
           </div>
           <p id="status" class="small muted" aria-live="polite">Pronto para calcular.</p>
         </div>
@@ -53,13 +57,13 @@
             <header class="card__header">
               <div>
                 <p class="eyebrow">Dados de nascimento</p>
-                <h2>Parâmetros do mapa</h2>
+                <h2>Gerar Mapa Natal</h2>
               </div>
               <span class="pill">Astrologia real</span>
             </header>
             <div class="field-grid">
               <label>
-                Nome completo
+                Nome Completo
                 <input
                   type="text"
                   name="fullName"
@@ -69,15 +73,15 @@
                 />
               </label>
               <label>
-                Data de nascimento
+                Data de Nascimento
                 <input type="date" name="birthDate" value="1990-06-15" required />
               </label>
               <label>
-                Hora (com fuso)
+                Hora do Nascimento
                 <input type="time" name="birthTime" value="14:30" required />
               </label>
               <label>
-                Local de nascimento
+                Local de Nascimento
                 <input
                   type="text"
                   name="birthPlace"
@@ -87,14 +91,14 @@
                 />
               </label>
               <label>
-                Idioma do relatório
+                Idioma do Relatório
                 <select name="language" required>
                   <option value="pt-BR">Português (Brasil)</option>
                   <option value="en">English</option>
                 </select>
               </label>
               <label>
-                Data alvo para trânsitos (opcional)
+                Data alvo (trânsitos)
                 <input type="date" name="transitDate" />
               </label>
             </div>
@@ -121,7 +125,7 @@
               <div>
                 <p class="eyebrow">Visual do mapa</p>
                 <h2>Roda astral em SVG</h2>
-                <p class="small">Mapa natal com sobreposição opcional de revolução solar.</p>
+                <p class="small">Mapa natal com sobreposição de revolução solar e trânsitos.</p>
               </div>
               <div class="pill-row">
                 <span class="pill subtle" id="meta-location">—</span>
@@ -152,6 +156,35 @@
               <button class="primary" id="download-pdf">PDF do relatório</button>
             </footer>
           </div>
+        </div>
+      </section>
+
+      <section class="info">
+        <header class="info__header">
+          <h2>O que inclui seu Mapa Natal</h2>
+          <p class="small">Relatórios personalizados com interpretações profundas para cada posição.</p>
+        </header>
+        <div class="info__grid">
+          <article class="info-card">
+            <div class="info-card__icon">✦</div>
+            <h3>Posições Planetárias</h3>
+            <p class="muted">Sol, Lua, planetas e ângulos com signos e graus precisos.</p>
+          </article>
+          <article class="info-card">
+            <div class="info-card__icon">⌘</div>
+            <h3>Casas Astrológicas</h3>
+            <p class="muted">Interpretação de cada casa com regências e temas.</p>
+          </article>
+          <article class="info-card">
+            <div class="info-card__icon">⚿</div>
+            <h3>Aspectos & Interpretações</h3>
+            <p class="muted">Ângulos entre planetas e leituras combinadas para você.</p>
+          </article>
+          <article class="info-card">
+            <div class="info-card__icon">⤳</div>
+            <h3>Revolução em PDF</h3>
+            <p class="muted">Relatório com trânsitos e revolução solar pronto para download.</p>
+          </article>
         </div>
       </section>
 
